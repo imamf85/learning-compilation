@@ -1,0 +1,113 @@
+.auth {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+  overflow: hidden;
+}
+
+.auth-form {
+  padding: 100px 175px;
+  margin: 0;
+}
+
+.auth-form input {
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-radius: 5px !important;
+}
+
+.auth-form > div:first-child {
+  background: #cfd4ed;
+  width: 100px;
+  height: 34px;
+  margin-bottom: 32px;
+}
+
+.auth-article {
+  height: 100vh;
+  background-size: cover;
+  position: relative;
+}
+
+.auth-article > div:first-child {
+  font-weight: 500;
+  font-size: 48px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.auth-article img {
+  width: 70vw;
+  height: 100vh;
+}
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #001678;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.successmsg {
+  background-color: #03ac0e;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+button[disabled] {
+  cursor: not-allowed !important;
+  pointer-events: all !important;
+}
+
+.link-bottom {
+  color: #0d28a6;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+@media only screen and (max-width: 768px) {
+  .auth-article {
+    display: none;
+  }
+
+  .auth {
+    display: block;
+  }
+}
