@@ -13,10 +13,10 @@ import "./authorization.css";
 2. Must include uppercase and lowercase letters, a number and special character.
 3. Must include one special characters = !, @, #, $, % */
 
-// Jika lengkap upper case, lower case, numeber, symbol
+// use this code if the password using Lower Case, Upper Case, Symbol & Number
 // const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{6,12}$/;
 
-// untuk memenuhi css
+// use this code for fulfill the existing email & pass from Swagger
 const PASSWORD_REGEX = /^(?=.*[0-9]).{6,12}$/;
 
 /*this EMAIL_REGEX contains :
@@ -63,11 +63,9 @@ const Login = () => {
     };
 
     try {
-      await axios.post("https://bootcamp-rent-cars.herokuapp.com/customer/auth/login", payload).then((res) => {
-        navigate("/dashboard");
-        localStorage.setItem("Token", res.data.access_token);
-      });
-      setTimeout(function () {}, 1000);
+      const response = await axios.post("https://bootcamp-rent-cars.herokuapp.com/customer/auth/login", payload);
+      navigate("/dashboard");
+      localStorage.setItem("Token", response.data.access_token);
 
       setSuccess(true);
       setPassword("");
@@ -132,15 +130,15 @@ const Login = () => {
               <FontAwesomeIcon icon={faTimes} className={validPassword || !password ? "hide" : "invalid"} />
             </Form.Label>
             <Form.Control
-              type="password"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
-              required
-              aria-invalid={validPassword ? "false" : "true"}
               aria-describedby="passwordnote"
-              onFocus={() => setPasswordFocus(true)}
+              aria-invalid={validPassword ? "false" : "true"}
               onBlur={() => setPasswordFocus(false)}
+              onChange={(e) => setPassword(e.target.value)}
+              onFocus={() => setPasswordFocus(true)}
+              placeholder="Password"
+              required
+              type="password"
+              value={password}
             />
             <Col id="passwordnote" className={passwordFocus && !validPassword ? "instructions" : "offscreen"}>
               <FontAwesomeIcon icon={faInfoCircle} />
@@ -155,8 +153,8 @@ const Login = () => {
           <Button
             style={{
               background: "#0D28A6",
-              width: "100%",
               borderRadius: 2,
+              width: "100%",
             }}
             type="submit"
           >
