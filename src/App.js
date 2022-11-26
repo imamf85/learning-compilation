@@ -1,5 +1,11 @@
+import Sidebar2 from "./atom/Sidebar2";
+
 const App = () => {
-  return <div>App</div>;
+  return (
+  
+  <Sidebar2 />
+
+  );
 };
 
 export default App;
