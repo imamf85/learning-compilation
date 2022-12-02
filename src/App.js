@@ -11,7 +11,7 @@ const App = () => {
       <Sidebar />
       <TopBar />
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/car-list" element={<CarList />} />
         <Route path="/login" element={<Login />} />
       </Routes>
