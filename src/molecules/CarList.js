@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Card, Col, Container } from "react-bootstrap";
+import { Card, Col, Container, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { NumberFormat } from "../atom/NumberFormat";
 import NotFoundImg from "../assets/ImageNotFound.jpeg";
@@ -8,8 +8,15 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
 import "../style.css";
 import { useNavigate } from "react-router-dom";
+import carDelete from "../assets/img-BeepBeep.svg";
 
 const CarList = () => {
+  const [data, setData] = useState([]);
+  const [modal, setModal] = useState(false);
+
+  const handleClose = () => setModal(false);
+  const handleShow = () => setModal(true);
+
   const navigate = useNavigate();
   const token = localStorage.getItem("Token");
   const config = {
@@ -28,7 +35,6 @@ const CarList = () => {
       margin: "1rem",
     },
   };
-  const [data, setData] = useState([]);
 
   useEffect(() => {
     getData();
@@ -41,7 +47,14 @@ const CarList = () => {
       .catch((err) => console.log(err));
   };
 
-  const Edit = (id) => {
+  const DeleteItem = (id) => {
+    axios
+      .delete(`https://bootcamp-rent-cars.herokuapp.com/admin/car/${id}`)
+      .then((res) => setData(res.status))
+      .catch((err) => console.log(err));
+  };
+
+  const EditItem = (id) => {
     navigate(`/edit${id}`);
   };
 
@@ -62,12 +75,32 @@ const CarList = () => {
                     <DriveFileRenameOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                     Edit
                   </Button>
-                  <div className="d-grid" onClick={() => Edit(items.id)}>
-                    <Button variant="outline-danger" size="lg">
+                  <div className="d-grid" onClick={() => EditItem(items.id)}>
+                    <Button variant="outline-danger" size="lg" onClick={handleShow}>
                       <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                       Delete
                     </Button>
                   </div>
+                  <Modal show={modal} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
+                    <Modal.Body>
+                      <div>
+                        <img src={carDelete} alt="" />
+                        <p>Setelah dihaus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
+                      </div>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          DeleteItem({});
+                          handleClose();
+                        }}
+                      >
+                        Ya
+                      </Button>
+                      <Button variant="outline-primary" onClick={handleClose}>
+                        Tidak
+                      </Button>
+                    </Modal.Body>
+                  </Modal>
                 </div>
               </Card.Body>
             </Card>
