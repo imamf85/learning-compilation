@@ -11,6 +11,21 @@ import { useNavigate } from "react-router-dom";
 import carDelete from "../assets/img-BeepBeep.svg";
 
 const CarList = () => {
+  // let bulan = [
+  //   'Jan',
+  //   'Feb',
+  //   'Mar',
+  //   'Apr',
+  //   'Mei',
+  //   'Jun',
+  //   'Jul',
+  //   'Aug',
+  //   'Sep',
+  //   'Okt',
+  //   'Nov',
+  //   'Dec',
+  // ];
+
   const [data, setData] = useState([]);
   const [modal, setModal] = useState(false);
 
@@ -47,14 +62,18 @@ const CarList = () => {
       .catch((err) => console.log(err));
   };
 
-  const DeleteItem = (id) => {
-    axios
-      .delete(`https://bootcamp-rent-cars.herokuapp.com/admin/car/${id}`)
-      .then((res) => setData(res.status))
-      .catch((err) => console.log(err));
+  const deleteItem = (id) => {
+    // axios
+    //   .delete(`https://bootcamp-rent-cars.herokuapp.com/admin/car/${id}`, config)
+    //   .then((res) => {
+    //     setModal(false);
+    //     getData();
+    //   })
+    //   .catch((err) => console.log(err));
+    console.log(id);
   };
 
-  const EditItem = (id) => {
+  const editItem = (id) => {
     navigate(`/edit${id}`);
   };
 
@@ -71,11 +90,11 @@ const CarList = () => {
                 <Card.Text>{items.category}</Card.Text>
                 <Card.Text>{items.updateAt}</Card.Text>
                 <div className="d-flex justify-content-center gap-3">
-                  <Button variant="success" size="lg">
+                  <Button variant="success" size="lg" onClick={() => editItem(items.id)}>
                     <DriveFileRenameOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                     Edit
                   </Button>
-                  <div className="d-grid" onClick={() => EditItem(items.id)}>
+                  <div className="d-grid">
                     <Button variant="outline-danger" size="lg" onClick={handleShow}>
                       <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                       Delete
@@ -85,13 +104,12 @@ const CarList = () => {
                     <Modal.Body>
                       <div>
                         <img src={carDelete} alt="" />
-                        <p>Setelah dihaus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
+                        <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
                       </div>
                       <Button
                         variant="primary"
                         onClick={() => {
-                          DeleteItem({});
-                          handleClose();
+                          deleteItem(items.id);
                         }}
                       >
                         Ya
