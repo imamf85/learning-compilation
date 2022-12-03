@@ -1,20 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./molecules/Dashboard";
 import CarList from "./molecules/CarList";
-import Sidebar from "./atom/Sidebar";
-import TopBar from "./atom/TopBar";
 import Login from "./components/authorization/Login";
+import PrivateRoutes from "./molecules/PrivateRoutes";
 
 const App = () => {
   return (
     <>
-      <Sidebar />
-      <TopBar />
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/car-list" element={<CarList />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+        <Routes>
+          <Route element={<PrivateRoutes />}>
+            <Route element={<Dashboard />} path="/dashboard" exact />
+            <Route element={<CarList />} path="/car-list"/>
+          </Route>
+          <Route element={<Login/>} path="/login" />
+        </Routes>
     </>
   );
 };
