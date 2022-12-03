@@ -78,54 +78,57 @@ const CarList = () => {
   };
 
   return (
-    <Container style={{ marginTop: 150, marginLeft: 350 }}>
-      <Col className="grid-cars-list">
-        {data.map((items) => (
-          <Col key={items.id}>
-            <Card style={styles.card}>
-              <Card.Img style={styles.cardImage} variant="top" src={items.image ? items.image : NotFoundImg} />
-              <Card.Body>
-                <Card.Text>{items.name}</Card.Text>
-                <Card.Title>Rp. {NumberFormat(items?.price)} / hari</Card.Title>
-                <Card.Text>{items.category}</Card.Text>
-                <Card.Text>{items.updateAt}</Card.Text>
-                <div className="d-flex justify-content-center gap-3">
-                  <Button variant="success" size="lg" onClick={() => editItem(items.id)}>
-                    <DriveFileRenameOutlineOutlinedIcon sx={{ fontSize: 25 }} />
-                    Edit
-                  </Button>
-                  <div className="d-grid">
-                    <Button variant="outline-danger" size="lg" onClick={handleShow}>
-                      <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
-                      Delete
+    <>
+      <Modal show={modal} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Body>
+          <div>
+            <img src={carDelete} alt="" />
+            <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
+          </div>
+          <Button
+            variant="primary"
+            onClick={() => {
+              deleteItem();
+            }}
+          >
+            Ya
+          </Button>
+          <Button variant="outline-primary" onClick={handleClose}>
+            Tidak
+          </Button>
+        </Modal.Body>
+      </Modal>
+
+      <Container style={{ marginTop: 150, marginLeft: 350 }}>
+        <Col className="grid-cars-list">
+          {data.map((items) => (
+            <Col key={items.id}>
+              <Card style={styles.card}>
+                <Card.Img style={styles.cardImage} variant="top" src={items.image ? items.image : NotFoundImg} />
+                <Card.Body>
+                  <Card.Text>{items.name}</Card.Text>
+                  <Card.Title>Rp. {NumberFormat(items?.price)} / hari</Card.Title>
+                  <Card.Text>{items.category}</Card.Text>
+                  <Card.Text>{items.updateAt}</Card.Text>
+                  <div className="d-flex justify-content-center gap-3">
+                    <Button variant="success" size="lg" onClick={() => editItem(items.id)}>
+                      <DriveFileRenameOutlineOutlinedIcon sx={{ fontSize: 25 }} />
+                      Edit
                     </Button>
+                    <div className="d-grid">
+                      <Button variant="outline-danger" size="lg" onClick={handleShow}>
+                        <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
+                        Delete
+                      </Button>
+                    </div>
                   </div>
-                  <Modal show={modal} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
-                    <Modal.Body>
-                      <div>
-                        <img src={carDelete} alt="" />
-                        <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
-                      </div>
-                      <Button
-                        variant="primary"
-                        onClick={() => {
-                          deleteItem(items.id);
-                        }}
-                      >
-                        Ya
-                      </Button>
-                      <Button variant="outline-primary" onClick={handleClose}>
-                        Tidak
-                      </Button>
-                    </Modal.Body>
-                  </Modal>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Col>
-    </Container>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Col>
+      </Container>
+    </>
   );
 };
 
