@@ -23,7 +23,9 @@ const Sidebar = () => {
       <Col className="dashboard-nav-child">
         <Row></Row>
         <Navbar>
-          <Nav>{dataNameOnDashboard[location.pathname === "/dashboard" ? 0 : 1]}</Nav>
+          <Nav>
+            {dataNameOnDashboard[location.pathname === "/dashboard" ? 0 : 1]}
+          </Nav>
           <Nav.Link
             as={Link}
             to={{
