@@ -1,4 +1,3 @@
-import CarsGraph from "./atom/CarsGraph";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./molecules/Dashboard";
 import Cars from "./molecules/Cars";
