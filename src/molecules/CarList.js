@@ -1,14 +1,18 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Card, Col, Container, Modal } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 import { NumberFormat } from "../atom/NumberFormat";
-import NotFoundImg from "../assets/ImageNotFound.jpeg";
+import { fetchCars } from "../config/api";
+
+import Button from "react-bootstrap/Button";
+import Sidebar from "../atom/Sidebar";
+import TopBar from "../atom/TopBar";
+
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRenameOutlineOutlined";
-import "../style.css";
-import { useNavigate } from "react-router-dom";
+import NotFoundImg from "../assets/ImageNotFound.jpeg";
 import carDelete from "../assets/img-BeepBeep.svg";
+import "../style.css";
 
 const CarList = () => {
   // let bulan = [
@@ -33,9 +37,19 @@ const CarList = () => {
   const handleShow = () => setModal(true);
 
   const navigate = useNavigate();
-  const token = localStorage.getItem("Token");
-  const config = {
-    headers: { access_token: token, "Content-Type": "application/json" },
+
+  useEffect(() => {
+    getDataCars();
+  }, []);
+
+  const getDataCars = () => {
+    fetchCars()
+      .then((res) => setData(res.data.cars))
+      .catch((err) => console.error(err));
+  };
+
+  const editCars = (id) => {
+    navigate(`/edit/${id}`);
   };
 
   const styles = {
@@ -62,18 +76,7 @@ const CarList = () => {
       .catch((err) => console.log(err));
   };
 
-  const deleteItem = (id) => {
-    // axios
-    //   .delete(`https://bootcamp-rent-cars.herokuapp.com/admin/car/${id}`, config)
-    //   .then((res) => {
-    //     setModal(false);
-    //     getData();
-    //   })
-    //   .catch((err) => console.log(err));
-    console.log(id);
-  };
-
-  const editItem = (id) => {
+  const Edit = (id) => {
     navigate(`/edit${id}`);
   };
 
@@ -99,6 +102,8 @@ const CarList = () => {
         </Modal.Body>
       </Modal>
 
+      <Sidebar />
+      <TopBar />
       <Container style={{ marginTop: 150, marginLeft: 350 }}>
         <Col className="grid-cars-list">
           {data.map((items) => (
@@ -111,12 +116,12 @@ const CarList = () => {
                   <Card.Text>{items.category}</Card.Text>
                   <Card.Text>{items.updateAt}</Card.Text>
                   <div className="d-flex justify-content-center gap-3">
-                    <Button variant="success" size="lg" onClick={() => editItem(items.id)}>
+                    <Button variant="success" size="lg">
                       <DriveFileRenameOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                       Edit
                     </Button>
-                    <div className="d-grid">
-                      <Button variant="outline-danger" size="lg" onClick={handleShow}>
+                    <div className="d-grid" onClick={() => Edit(items.id)}>
+                      <Button variant="outline-danger" size="lg">
                         <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                         Delete
                       </Button>
