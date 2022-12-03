@@ -64,7 +64,7 @@ const Login = () => {
 
     try {
       const response = await axios.post("https://bootcamp-rent-cars.herokuapp.com/customer/auth/login", payload);
-      navigate("/dashboard");
+      navigate("/");
       localStorage.setItem("Token", response.data.access_token);
 
       setSuccess(true);
