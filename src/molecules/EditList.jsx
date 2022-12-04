@@ -30,7 +30,7 @@ const EditList = () => {
             icon: "success",
             timer: 2000,
           });
-          navigate(-1);
+          navigate("/car-list");
         }
       })
       .catch((err) => console.log(err.message));
@@ -81,7 +81,7 @@ const EditList = () => {
             <Button variant="outline-primary" className="m-2 p-2">
               Cancel
             </Button>
-            <Button variant="primary" className="m-2 p-2">
+            <Button variant="primary" className="m-2 p-2" onChange={updateMobil}>
               Save
             </Button>
           </div>
