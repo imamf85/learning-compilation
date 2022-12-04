@@ -1,0 +1,11 @@
+label {
+  flex-direction: row;
+  padding-right: 100px;
+}
+
+.cont {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
