@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Container, Modal } from "react-bootstrap";
+import { Card, Col, Container, Dropdown, DropdownButton, Modal } from "react-bootstrap";
 import { DateTime } from "luxon";
 import { useNavigate } from "react-router-dom";
 import { NumberFormat } from "../atom/NumberFormat";
 import { fetchCars, deleteCar } from "../config/api";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import swal from "sweetalert";
+import "./style.css";
 
 import Button from "react-bootstrap/Button";
 import Sidebar from "../atom/Sidebar";
@@ -42,6 +44,22 @@ const CarList = () => {
     console.log(id);
   };
 
+  // const handleDeleteItem = (id) => {
+  //   deleteCar(id)
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //         swal({
+  //           title: "Declared!",
+  //           text: "Berhasil Menghapus Data",
+  //           icon: "success",
+  //           timer: 2000,
+  //         });
+  //         navigate("/car-list");
+  //       }
+  //     })
+  //     .catch((err) => console.log(err.message));
+  // };
+
   // const deleteItem = (id) => {
   //   deleteCar()
   //     .then((res) => {
@@ -54,7 +72,8 @@ const CarList = () => {
   //   console.log(id);
   // };
 
-  const handleDeleteItem = () => {
+  const handleDeleteItem = (id) => {
+    deleteCar(id);
     setData((pre) => {
       const newArray = [...pre];
       return newArray.filter((item) => item.id !== deletedId);
@@ -85,25 +104,38 @@ const CarList = () => {
 
   return (
     <>
-      <Modal show={modal} onHide={handleClose} size="sm" aria-labelledby="contained-modal-title-vcenter" centered>
-        <Modal.Body>
+      <Modal show={modal} onHide={handleClose} size="sm" centered>
+        <Modal.Body className="text-center">
           <div>
-            <img src={carDelete} alt="" />
-            <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
+            <img src={carDelete} alt="" justify-content-md-center />
+            <p className="m-3">Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
           </div>
-          <Button variant="primary" onClick={handleDeleteItem}>
-            Ya
-          </Button>
-          <Button variant="outline-primary" onClick={handleClose}>
-            Tidak
-          </Button>
+          <div>
+            <Button variant="primary" className="m-2 p-3" onClick={handleDeleteItem}>
+              Ya
+            </Button>
+            <Button variant="outline-danger" className="m-2 p-3" onClick={handleClose}>
+              Tidak
+            </Button>
+          </div>
         </Modal.Body>
       </Modal>
 
       <Sidebar />
       <TopBar />
+
       <Container style={{ marginTop: 150, marginLeft: 350 }}>
-        <Col className="grid-cars-list">
+        <div>
+          <label>
+            Kategori<span>*</span>
+          </label>
+          <DropdownButton id="dropdown-item-button" title="Pilih Category">
+            <Dropdown.Item as="button">Small</Dropdown.Item>
+            <Dropdown.Item as="button">Medium</Dropdown.Item>
+            <Dropdown.Item as="button">Large</Dropdown.Item>
+          </DropdownButton>
+        </div>
+        <Col className="grid-cars-list d-flex flex-column justify-content-center">
           {data.map((items) => (
             <Col key={items.id}>
               <Card style={styles.card}>
