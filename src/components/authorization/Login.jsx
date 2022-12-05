@@ -31,6 +31,7 @@ const Login = () => {
 
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
   const [email, setEmail] = useState("");
@@ -56,6 +57,7 @@ const Login = () => {
 
   const loginSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(!isLoading)
     const payload = {
       email: email,
       password: password,
@@ -66,8 +68,8 @@ const Login = () => {
       const response = await axios.post("https://bootcamp-rent-cars.herokuapp.com/customer/auth/login", payload);
       navigate("/dashboard");
       localStorage.setItem("Token", response.data.access_token);
-
       setSuccess(true);
+      setIsLoading(!isLoading)
       setPassword("");
     } catch (err) {
       if (err.response?.status === 400) {
@@ -151,6 +153,7 @@ const Login = () => {
             </Col>
           </Form.Group>
           <Button
+            disabled={isLoading}
             style={{
               background: "#0D28A6",
               borderRadius: 2,
@@ -158,7 +161,7 @@ const Login = () => {
             }}
             type="submit"
           >
-            Sign In
+            {isLoading ? 'Loading…' : 'Sign In'}
           </Button>
         </Form>
       </Col>
