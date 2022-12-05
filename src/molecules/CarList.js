@@ -44,41 +44,22 @@ const CarList = () => {
     console.log(id);
   };
 
-  // const handleDeleteItem = (id) => {
-  //   deleteCar(id)
-  //     .then((res) => {
-  //       if (res.status === 200) {
-  //         swal({
-  //           title: "Declared!",
-  //           text: "Berhasil Menghapus Data",
-  //           icon: "success",
-  //           timer: 2000,
-  //         });
-  //         navigate("/car-list");
-  //       }
-  //     })
-  //     .catch((err) => console.log(err.message));
-  // };
-
-  // const deleteItem = (id) => {
-  //   deleteCar()
-  //     .then((res) => {
-  //       setDeletedId(id);
-  //       setModal(true);
-  //       getDataCars();
-  //       // setData(res.data.cars);
-  //     })
-  //     .catch((err) => console.log(err));
-  //   console.log(id);
-  // };
-
-  const handleDeleteItem = (id) => {
-    deleteCar(id);
-    setData((pre) => {
-      const newArray = [...pre];
-      return newArray.filter((item) => item.id !== deletedId);
-    });
-    setModal(false);
+  const handleDeleteItem = () => {
+    deleteCar(deletedId)
+      .then((res) => {
+        setModal(false);
+        console.log(res);
+        if (res.status === 200) {
+          swal({
+            title: "Declared!",
+            text: "Berhasil Menghapus Data",
+            icon: "success",
+            timer: 2000,
+          });
+          navigate("/car-list");
+        }
+      })
+      .catch((err) => console.log(err.message));
   };
 
   const editCar = (id) => {
@@ -111,7 +92,7 @@ const CarList = () => {
             <p className="m-3">Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
           </div>
           <div>
-            <Button variant="primary" className="m-2 p-3" onClick={handleDeleteItem}>
+            <Button variant="primary" className="m-2 p-3" onClick={() => handleDeleteItem()}>
               Ya
             </Button>
             <Button variant="outline-danger" className="m-2 p-3" onClick={handleClose}>
