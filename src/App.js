@@ -4,6 +4,7 @@ import Dashboard from "./molecules/Dashboard";
 import EditList from "./molecules/EditList";
 import Login from "./components/authorization/Login";
 import PrivateRoutes from "./molecules/PrivateRoutes";
+import AddCar from "./molecules/AddCar";
 
 const App = () => {
   return (
