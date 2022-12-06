@@ -16,6 +16,8 @@ import DriveFileRenameOutlineOutlinedIcon from "@mui/icons-material/DriveFileRen
 import NotFoundImg from "../assets/ImageNotFound.jpeg";
 import carDelete from "../assets/img-BeepBeep.svg";
 import "../style.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const CarList = () => {
   const navigate = useNavigate();
@@ -69,14 +71,9 @@ const CarList = () => {
   const styles = {
     cardImage: {
       height: "18rem",
-      padding: "1rem",
-      borderRadius: 25,
+      padding: "0.5rem",
       objectFit: "cover",
-    },
-    card: {
-      width: "24rem",
-      margin: "1rem",
-    },
+    }
   };
 
   useEffect(() => {
@@ -102,14 +99,17 @@ const CarList = () => {
 
       <Sidebar />
       <TopBar />
-      <Container style={{ marginTop: 150, marginLeft: 350 }}>
+      <Container className="w-75">
+        <div className="d-flex justify-content-end my-4" style={{ marginRight: "1rem" }}>
+          <Link to='/addcar'> <Button className="bg-primary"><FontAwesomeIcon icon={faPlus} /> Add New Car</Button></Link>
+        </div>
         <Col className="grid-cars-list">
           {data.map((items) => (
             <Col key={items.id}>
-              <Card style={styles.card}>
-                <Card.Img style={styles.cardImage} variant="top" src={items.image ? items.image : NotFoundImg} />
+              <Card>
+                <Card.Img style={styles.cardImage} className="rounded" variant="top" src={items.image ? items.image : NotFoundImg} />
                 <Card.Body>
-                  <Card.Text>{items.name}</Card.Text>
+                  <Card.Text className="uppercase text-muted">{items.name}</Card.Text>
                   <Card.Title>Rp. {NumberFormat(items?.price)} / hari</Card.Title>
                   <Card.Text>
                     <PeopleAltOutlinedIcon />
