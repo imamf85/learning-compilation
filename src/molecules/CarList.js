@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Container, Modal } from "react-bootstrap";
 import { DateTime } from "luxon";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NumberFormat } from "../atom/NumberFormat";
 import { fetchCars, deleteCar } from "../config/api";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import swal from "sweetalert";
-import "./style.css";
 
 import Button from "react-bootstrap/Button";
 import Sidebar from "../atom/Sidebar";
