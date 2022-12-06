@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Container, Modal } from "react-bootstrap";
 import { DateTime } from "luxon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { NumberFormat } from "../atom/NumberFormat";
 import { fetchCars, deleteCar } from "../config/api";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -73,7 +73,7 @@ const CarList = () => {
       height: "18rem",
       padding: "0.5rem",
       objectFit: "cover",
-    }
+    },
   };
 
   useEffect(() => {
@@ -101,7 +101,12 @@ const CarList = () => {
       <TopBar />
       <Container className="w-75">
         <div className="d-flex justify-content-end my-4" style={{ marginRight: "1rem" }}>
-          <Link to='/addcar'> <Button className="bg-primary"><FontAwesomeIcon icon={faPlus} /> Add New Car</Button></Link>
+          <Link to="/addcar">
+            {" "}
+            <Button className="bg-primary">
+              <FontAwesomeIcon icon={faPlus} /> Add New Car
+            </Button>
+          </Link>
         </div>
         <Col className="grid-cars-list">
           {data.map((items) => (
