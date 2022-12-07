@@ -102,7 +102,7 @@ const CarList = () => {
       <TopBar />
       <Container className="w-75">
         <div className="d-flex justify-content-end my-4" style={{ marginRight: "1rem" }}>
-          <Link to="/addcar">
+          <Link to="/add-car">
             {" "}
             <Button className="bg-primary">
               <FontAwesomeIcon icon={faPlus} /> Add New Car
