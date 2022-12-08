@@ -8,8 +8,8 @@ import "../style.css";
 const Dashboard = () => {
   return (
     <>
-    <Sidebar />
-    <TopBar />
+      <Sidebar />
+      <TopBar />
       <Col className="dashboard">
         <Col className="empty-area"></Col>
         <Container style={{ width: "80vw", marginTop: 32 }}>

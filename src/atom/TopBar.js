@@ -16,7 +16,13 @@ const TopBar = () => {
       <Col>
         <Form className="d-flex">
           <FontAwesomeIcon icon={faSearch} />
-          <Form.Control type="search" placeholder="Search" className="me-2" aria-label="Search" style={{ margin: 0, borderRadius: 2 }} />
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            className="me-2"
+            aria-label="Search"
+            style={{ margin: 0, borderRadius: 2 }}
+          />
 
           <Button
             variant="outline-success"
@@ -31,8 +37,8 @@ const TopBar = () => {
           </Button>
         </Form>
         <Col className="profile-name">
-          <Row>U</Row>
-          <Row>Unis Badri</Row>
+          <Row>A</Row>
+          <Row>Admin</Row>
           <img src={chevronDown} alt="chevron-down" />
         </Col>
       </Col>

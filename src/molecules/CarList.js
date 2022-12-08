@@ -85,13 +85,24 @@ const CarList = () => {
         <Modal.Body className="text-center">
           <div>
             <img src={carDelete} alt="" justify-content-md-center />
-            <p className="m-3">Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap menghapus?</p>
+            <p className="m-3">
+              Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin tetap
+              menghapus?
+            </p>
           </div>
           <div>
-            <Button variant="primary" className="m-2 p-3" onClick={() => handleDeleteItem()}>
+            <Button
+              variant="primary"
+              className="m-2 p-3"
+              onClick={() => handleDeleteItem()}
+            >
               Ya
             </Button>
-            <Button variant="outline-danger" className="m-2 p-3" onClick={handleClose}>
+            <Button
+              variant="outline-danger"
+              className="m-2 p-3"
+              onClick={handleClose}
+            >
               Tidak
             </Button>
           </div>
@@ -100,8 +111,11 @@ const CarList = () => {
 
       <Sidebar />
       <TopBar />
-      <Container className="w-75">
-        <div className="d-flex justify-content-end my-4" style={{ marginRight: "1rem" }}>
+      <Container className="w-75 add-car" style={{ marginLeft: 200 }}>
+        <div
+          className="d-flex justify-content-end my-4"
+          style={{ marginRight: "1rem" }}
+        >
           <Link to="/add-car">
             {" "}
             <Button className="bg-primary">
@@ -113,24 +127,44 @@ const CarList = () => {
           {data.map((items) => (
             <Col key={items.id}>
               <Card>
-                <Card.Img style={styles.cardImage} className="rounded" variant="top" src={items.image ? items.image : NotFoundImg} />
+                <Card.Img
+                  style={styles.cardImage}
+                  className="rounded"
+                  variant="top"
+                  src={items.image ? items.image : NotFoundImg}
+                />
                 <Card.Body>
-                  <Card.Text className="uppercase text-muted">{items.name}</Card.Text>
-                  <Card.Title>Rp. {NumberFormat(items?.price)} / hari</Card.Title>
+                  <Card.Text className="uppercase text-muted">
+                    {items.name}
+                  </Card.Text>
+                  <Card.Title>
+                    Rp. {NumberFormat(items?.price)} / hari
+                  </Card.Title>
                   <Card.Text>
                     <PeopleAltOutlinedIcon />
                     {items.category}
                   </Card.Text>
                   <Card.Text>
                     <AccessTimeIcon />
-                    Updated at {DateTime.fromISO(items.updatedAt).toFormat("ff")}
+                    Updated at{" "}
+                    {DateTime.fromISO(items.updatedAt).toFormat("ff")}
                   </Card.Text>
                   <div className="d-flex justify-content-center gap-3">
-                    <Button variant="success" size="lg" onClick={() => editCar(items.id)}>
-                      <DriveFileRenameOutlineOutlinedIcon sx={{ fontSize: 25 }} />
+                    <Button
+                      variant="success"
+                      size="lg"
+                      onClick={() => editCar(items.id)}
+                    >
+                      <DriveFileRenameOutlineOutlinedIcon
+                        sx={{ fontSize: 25 }}
+                      />
                       Edit
                     </Button>
-                    <Button variant="outline-danger" size="lg" onClick={() => deleteItem(items.id)}>
+                    <Button
+                      variant="outline-danger"
+                      size="lg"
+                      onClick={() => deleteItem(items.id)}
+                    >
                       <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
                       Delete
                     </Button>

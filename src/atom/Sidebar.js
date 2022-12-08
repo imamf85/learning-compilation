@@ -10,7 +10,7 @@ const Sidebar = () => {
   return (
     <Col>
       <Col className="dashboard-nav">
-        <Nav.Link as={Link} to={{ pathname: "/dashboard" }}>
+        <Nav.Link as={Link} to={{ pathname: "/" }}>
           <img src={homeIcon} alt="car-pic" />
           <Col>{dataNameOnDashboard[0]}</Col>
         </Nav.Link>
@@ -22,14 +22,14 @@ const Sidebar = () => {
       <Col className="dashboard-nav-child">
         <Row></Row>
         <Navbar>
-          <Nav>{dataNameOnDashboard[location.pathname === "/dashboard" ? 0 : 1]}</Nav>
+          <Nav>{dataNameOnDashboard[location.pathname === "/" ? 0 : 1]}</Nav>
           <Nav.Link
             as={Link}
             to={{
-              pathname: location.pathname,
+              pathname: location.pathname === "/" ? "/" : "/car-list",
             }}
           >
-            {dataNameOnDashboard[location.pathname === "/dashboard" ? 0 : 2]}
+            {dataNameOnDashboard[location.pathname === "/" ? 0 : 2]}
           </Nav.Link>
         </Navbar>
       </Col>
