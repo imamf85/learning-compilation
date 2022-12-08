@@ -10,7 +10,7 @@ const Sidebar = () => {
   return (
     <Col>
       <Col className="dashboard-nav">
-        <Nav.Link as={Link} to={{ pathname: "/dashboard" }}>
+        <Nav.Link as={Link} to={{ pathname: "/" }}>
           <img src={homeIcon} alt="car-pic" />
           <Col>{dataNameOnDashboard[0]}</Col>
         </Nav.Link>
