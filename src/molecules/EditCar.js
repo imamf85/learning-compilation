@@ -1,13 +1,15 @@
 import { Button, Container } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../atom/Sidebar";
 import TopBar from "../atom/TopBar";
 import "../style.css";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { editCar } from "../config/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCarsById } from "../redux/action/cars";
 
 const schema = yup
   .object()
@@ -19,6 +21,14 @@ const schema = yup
   .required();
 
 const EditCar = () => {
+  const { cars } = useSelector((state) => state.cars);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCarsById(id));
+  }, [id, dispatch]);
+  console.log(cars);
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState("");
@@ -34,27 +44,28 @@ const EditCar = () => {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
     let formData = new FormData();
-    setIsLoading(true);
-    formData.append("name", data.name);
-    formData.append("category", data.category);
-    formData.append("price", data.price);
-    formData.append("status", false);
-    formData.append("image", data.image[0]);
-    const response = await editCar(formData);
-    if (response.status === 201) {
-      setIsLoading(false);
-      setIsSuccess("Data successfull created");
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    } else {
-      setIsLoading(false);
-      setIsError("Something wrong, try again later.");
-      setTimeout(() => {
-        navigate(-1);
-      }, 2000);
-    }
+    // setIsLoading(true);
+    // formData.append("name", data.name);
+    // formData.append("category", data.category);
+    // formData.append("price", data.price);
+    // formData.append("status", false);
+    // formData.append("image", data.image[0]);
+    // const response = await editCar(formData);
+    // if (response.status === 201) {
+    //   setIsLoading(false);
+    //   setIsSuccess("Data successfull created");
+    //   setTimeout(() => {
+    //     navigate(-1);
+    //   }, 2000);
+    // } else {
+    //   setIsLoading(false);
+    //   setIsError("Something wrong, try again later.");
+    //   setTimeout(() => {
+    //     navigate(-1);
+    //   }, 2000);
+    // }
   };
   return (
     <div>
@@ -81,7 +92,7 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="text" id="name" className="form-control w-22" placeholder="Input Nama/Tipe Mobil" {...input("name")} />
+              <input type="text" id="name" className="form-control w-22" placeholder="Input Nama/Tipe Mobil" value={cars?.name} />
               <p className="text-danger">{errors.name?.message}</p>
             </div>
           </div>
@@ -93,7 +104,7 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="text" id="harga" className="form-control w-22" placeholder="Input Harga Sewa Mobil" {...input("price")} />
+              <input type="text" id="harga" className="form-control w-22" placeholder="Input Harga Sewa Mobil" value={cars?.price} />
               <p className="text-danger">{errors.price?.message}</p>
             </div>
           </div>
@@ -105,7 +116,7 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="file" accept="image/jpg, image/png, image/jpeg" id="foto" className="form-control w-22" placeholder="Upload Foto Mobil" {...input("image")} />
+              <input type="file" accept="image/jpg, image/png, image/jpeg" id="foto" className="form-control w-22" placeholder="Upload Foto Mobil" />
               <p className="text-danger">{errors.image?.message}</p>
               <span className="form-text">File size max. 2MB</span>
             </div>
@@ -118,7 +129,7 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <select className="form-select w-22" {...input("category")} onChange={(e) => setValue("category", e.target.value, { shouldValidate: true })}>
+              <select className="form-select w-22" onChange={(e) => setValue("category", e.target.value, { shouldValidate: true })}>
                 <option defaultValue={"Pilih Kategori Mobil"} disabled>
                   Pilih Kategori Mobil
                 </option>
