@@ -11,7 +11,7 @@ const config_multipart = {
 };
 export const fetchCars = () => http.get("/admin/v2/car", config);
 export const deleteCar = (id) => http.delete(`/admin/car/${id}`, config);
-export const fetchCarsDetail = (id) => http.get(`/customer/car/${id}`);
+export const fetchCarsDetail = (id) => http.get(`/admin/car/${id}`, config);
 export const addCar = (payload) => http.post(`/admin/car/`, payload, config_multipart);
 export const editCar = (id) => http.put(`/admin/car/${id}`, config_multipart);
 // export const postOrderRentCar = (id, payload) =>
