@@ -1,89 +1,85 @@
-import { Button, Container } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { getCarsById } from "../redux/action/cars";
+import { editCar } from "../config/api";
+import { Button, Container } from "react-bootstrap";
 import Sidebar from "../atom/Sidebar";
 import TopBar from "../atom/TopBar";
 import "../style.css";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { editCar } from "../config/api";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getCarsById } from "../redux/action/cars";
-
-const schema = yup
-  .object()
-  .shape({
-    name: yup.string().required("Name must be filled"),
-    price: yup.string().required("Price must be filled"),
-    category: yup.string().required("Category must be upload"),
-  })
-  .required();
 
 const EditCar = () => {
-  const { cars } = useSelector((state) => state.cars);
   const { id } = useParams();
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getCarsById(id));
-  }, [id, dispatch]);
-  console.log(cars);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState("");
   const [isSuccess, setIsSuccess] = useState("");
+  const { cars } = useSelector((state) => state.cars)
+
+  useEffect(() => {
+    dispatch(getCarsById(id));
+  }, [id, dispatch]);
+
   const {
     register: input,
     handleSubmit,
     setValue,
-    formState: { errors },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    setIsLoading(true);
+    const defaultValue = {
+      name: cars?.name,
+      price: cars?.price,
+      category: cars?.category,
+      image: cars?.image,
+    }
+
     let formData = new FormData();
-    // setIsLoading(true);
-    // formData.append("name", data.name);
-    // formData.append("category", data.category);
-    // formData.append("price", data.price);
-    // formData.append("status", false);
-    // formData.append("image", data.image[0]);
-    // const response = await editCar(formData);
-    // if (response.status === 201) {
-    //   setIsLoading(false);
-    //   setIsSuccess("Data successfull created");
-    //   setTimeout(() => {
-    //     navigate(-1);
-    //   }, 2000);
-    // } else {
-    //   setIsLoading(false);
-    //   setIsError("Something wrong, try again later.");
-    //   setTimeout(() => {
-    //     navigate(-1);
-    //   }, 2000);
-    // }
+    formData.append("name", data.name ? data.name : defaultValue.name);
+    formData.append("category", data.category ? data.category : defaultValue.category);
+    formData.append("price", data.price ? data.price : defaultValue.price);
+    formData.append("status", false);
+    formData.append("image", data.image[0] ? data.image[0] : defaultValue.image);
+    const response = await editCar(formData, id);
+    if (response) {
+      setIsLoading(false);
+      setIsSuccess("Data successfull updated");
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    } else {
+      setIsLoading(false);
+      setIsError("Something wrong, try again later.");
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    }
   };
   return (
     <div>
       <Sidebar />
       <TopBar />
-      <Container className="w-75">
+      <Container
+        className="w-75 add-car"
+        style={{ width: "80vw", marginLeft: 200 }}
+      >
         <nav aria-label="breadcrumb" style={{ marginTop: "2rem" }}>
           <ol className="breadcrumb">
             <li className="breadcrumb-item fw-bold">Cars</li>
-            <li className="breadcrumb-item fw-bold">Edit Car</li>
+            <li className="breadcrumb-item fw-bold">List Cars</li>
             <li className="breadcrumb-item active" aria-current="page">
-              Edit Car
+              Edit New Car
             </li>
           </ol>
         </nav>
-        <h4 className="fw-bold my-4">Edit Car</h4>
-        <p className="text-success">{isSuccess}</p>
-        <p className="text-success">{isError}</p>
+        <h4 className="fw-bold my-4">Edit New Car</h4>
+        <p className={`alert alert-success ${isSuccess ? '' : 'd-none'}`}>{isSuccess}</p>
+        <p className={`alert alert-danger ${isError ? '' : 'd-none'}`}>{isError}</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="row align-items-center">
             <div className="col-auto w-14">
@@ -92,8 +88,14 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="text" id="name" className="form-control w-22" placeholder="Input Nama/Tipe Mobil" value={cars?.name} />
-              <p className="text-danger">{errors.name?.message}</p>
+              <input
+                type="text"
+                id="name"
+                className="form-control w-22"
+                placeholder="Input Nama/Tipe Mobil"
+                defaultValue={cars?.name}
+                {...input("name")}
+              />
             </div>
           </div>
 
@@ -104,8 +106,19 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="text" id="harga" className="form-control w-22" placeholder="Input Harga Sewa Mobil" value={cars?.price} />
-              <p className="text-danger">{errors.price?.message}</p>
+              <input
+                type="text"
+                id="harga"
+                className="form-control w-22"
+                placeholder="Input Harga Sewa Mobil"
+                defaultValue={cars?.price}
+                onChange={(e) =>
+                  setValue("price", e.target.value, {
+                    shouldValidate: true,
+                  })
+                }
+                {...input("price")}
+              />
             </div>
           </div>
 
@@ -116,8 +129,20 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <input type="file" accept="image/jpg, image/png, image/jpeg" id="foto" className="form-control w-22" placeholder="Upload Foto Mobil" />
-              <p className="text-danger">{errors.image?.message}</p>
+              <input
+                type="file"
+                accept="image/jpg, image/png, image/jpeg"
+                id="foto"
+                className="form-control w-22"
+                placeholder="Upload Foto Mobil"
+                // defaultValue={cars?.image}
+                // onChange={(e) =>
+                //   setValue("image", e.target.files[0], {
+                //     shouldValidate: true,
+                //   })
+                // }
+                {...input("image")}
+              />
               <span className="form-text">File size max. 2MB</span>
             </div>
           </div>
@@ -129,15 +154,22 @@ const EditCar = () => {
               </label>
             </div>
             <div className="col-auto">
-              <select className="form-select w-22" onChange={(e) => setValue("category", e.target.value, { shouldValidate: true })}>
-                <option defaultValue={"Pilih Kategori Mobil"} disabled>
-                  Pilih Kategori Mobil
+              <select
+                className="form-select w-22"
+                {...input("category")}
+                onChange={(e) =>
+                  setValue("category", e.target.value, {
+                    shouldValidate: true,
+                  })
+                }
+              >
+                <option defaultValue={cars?.category} disabled selected>
+                  {cars?.category}
                 </option>
                 <option defaultValue={"small"}>Small</option>
                 <option defaultValue={"medium"}>Medium</option>
                 <option defaultValue={"large"}>Large</option>
               </select>
-              {errors.select && <p className="text-danger">{errors.category.message}</p>}
             </div>
           </div>
 
@@ -147,24 +179,24 @@ const EditCar = () => {
                 Created At
               </label>
             </div>
-            <div className="col-auto">&nbsp;&nbsp;-</div>
+            <div className="col-auto">{cars?.createdAt}</div>
           </div>
 
-          <div className="row align-items-center py-3">
+          <div className="row align-items-center py-3" style={{ marginBottom: "10rem" }}>
             <div className="col-auto w-14">
               <label htmlFor="harga" className="col-form-label">
                 Updated At
               </label>
             </div>
-            <div className="col-auto">&nbsp;&nbsp;-</div>
+            <div className="col-auto">{cars?.updatedAt}</div>
           </div>
 
           <div className="d-flex gap-3 fixed">
-            <Button onClick={() => navigate(-1)} className="btn btn-light">
+            <Button variant="outline-secondary" onClick={() => navigate(-1)} className="btn btn-light">
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Loading.." : "Save"}
+            <Button variant="outline-success" type="submit" disabled={isLoading}>
+              {isLoading ? "Loading.." : "Update"}
             </Button>
           </div>
         </form>

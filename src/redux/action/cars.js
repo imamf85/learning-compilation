@@ -1,12 +1,13 @@
 import * as api from "../../config/api";
-import { FETCH_BY_ID } from "./actionType";
+import { END_LOADING, FETCH_BY_ID, START_LOADING } from "./actionType";
 
 export const getCarsById = (id) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.fetchCarsDetail(id);
-    // console.log(data);
     dispatch({ type: FETCH_BY_ID, payload: data });
+    dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
