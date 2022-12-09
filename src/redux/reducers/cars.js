@@ -1,8 +1,26 @@
 // eslint-disable-next-line
-import { FETCH_BY_ID } from "../action/actionType";
+import { END_LOADING, FETCH_BY_ID, START_LOADING } from "../action/actionType";
+const INITIAL_STATE = {
+  isLoading: true,
+  cars: [],
+}
 // eslint-disable-next-line
-export default (state = { isLoading: true, cars: [] }, action) => {
+export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case START_LOADING: {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }
+
+    case END_LOADING: {
+      return {
+        ...state,
+        isLoading: false
+      }
+    }
+
     case FETCH_BY_ID:
       return {
         ...state,

@@ -30,11 +30,11 @@ const CarList = () => {
 
   useEffect(() => {
     getDataCars();
-  }, []);
+  }, [data]);
 
   const getDataCars = () => {
     fetchCars()
-      .then((res) => setData(res.data.cars))
+      .then((res) => setData(res?.data?.cars))
       .catch((err) => console.error(err));
   };
 
@@ -49,7 +49,6 @@ const CarList = () => {
     deleteCar(deletedId)
       .then((res) => {
         setModal(false);
-        console.log(res);
         if (res.status === 200) {
           swal({
             title: "Declared!",
@@ -74,10 +73,6 @@ const CarList = () => {
       objectFit: "cover",
     },
   };
-
-  useEffect(() => {
-    getDataCars();
-  }, []);
 
   return (
     <>
@@ -140,19 +135,15 @@ const CarList = () => {
                   <Card.Title>
                     Rp. {NumberFormat(items?.price)} / hari
                   </Card.Title>
-                  <Card.Text>
-                    <PeopleAltOutlinedIcon />
-                    {items.category}
+                  <Card.Text className="text-muted capitalize"><PeopleAltOutlinedIcon />&nbsp;{items.category}
                   </Card.Text>
-                  <Card.Text>
-                    <AccessTimeIcon />
-                    Updated at{" "}
-                    {DateTime.fromISO(items.updatedAt).toFormat("ff")}
+                  <Card.Text className="mb-4 text-muted">
+                    <AccessTimeIcon /> {DateTime.fromISO(items.updatedAt).toFormat("ff")}
                   </Card.Text>
-                  <div className="d-flex justify-content-center gap-3">
+                  <div className="d-flex justify-content-end gap-2">
                     <Button
-                      variant="success"
-                      size="lg"
+                      variant="outline-success"
+                      size="sm"
                       onClick={() => editCar(items.id)}
                     >
                       <DriveFileRenameOutlineOutlinedIcon
@@ -162,7 +153,7 @@ const CarList = () => {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      size="lg"
+                      size="sm"
                       onClick={() => deleteItem(items.id)}
                     >
                       <DeleteOutlineOutlinedIcon sx={{ fontSize: 25 }} />
